@@ -17,12 +17,8 @@
 # define OMAP_ENHANCEMENT variables
 include device/phytec/pcm049/Config.mk
 
-PRODUCT_MAKEFILES := $(LOCAL_DIR)/full_pcm049.mk
-
-ifdef OMAP_ENHANCEMENT_CPCAM
-PRODUCT_MAKEFILES += \
-    device/ti/blaze_tablet/sdk_addon/ti_omap_addon.mk
-endif
+PRODUCT_MAKEFILES := \
+    full_pcm049:$(LOCAL_DIR)/full_pcm049.mk
 
 # clear OMAP_ENHANCEMENT variables
 $(call ti-clear-vars)

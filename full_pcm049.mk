@@ -26,9 +26,8 @@
 #        net.dns2=8.8.4.4
 
 # Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 $(call inherit-product, device/phytec/pcm049/device.mk)
-$(call inherit-product-if-exists, vendor/ti/proprietary/omap4xxx/ti-omap4-vendor.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 PRODUCT_NAME := full_pcm049
 PRODUCT_DEVICE := pcm049
