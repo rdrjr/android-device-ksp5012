@@ -3,16 +3,22 @@ import init.pcm049.wifi.rc
 
 on init
 # See storage config details at http://source.android.com/tech/storage/
-# Primay External Storage
-	mkdir /mnt/media_rw 0700 media_rw media_rw
-	mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
-	mkdir /storage/sdcard0 0700 root root
+	mkdir /mnt/shell/emulated 0700 shell shell
+	mkdir /storage/emulated 0555 root root
 
-	export EXTERNAL_STORAGE /storage/sdcard0
+	export EXTERNAL_STORAGE /storage/emulated/legacy
+	export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
+	export EMULATED_STORAGE_TARGET /storage/emulated
 
 # Support legacy paths
-	symlink /storage/sdcard0 /sdcard
-	symlink /storage/sdcard0 /mnt/sdcard
+	symlink /storage/emulated/legacy /sdcard
+	symlink /storage/emulated/legacy /mnt/sdcard
+	symlink /storage/emulated/legacy /storage/sdcard0
+	symlink /mnt/shell/emulated/0 /storage/emulated/legacy
+
+# create real external storage
+	export SECONDARY_STORAGE /storage/sdcard1
+	mkdir /storage/sdcard1 0000 system system
 
 # External USB mount point
 	mkdir /storage/udisk 0000 system system
@@ -42,13 +48,13 @@ on post-fs-data
 	mkdir /data/misc/camera 0770 media media
 
 # for Bluetooth HID
-	chmod 0666 /dev/uhid
+#	chmod 0666 /dev/uhid
 
 # change permissions for Bluetooth/FM/GPS
-	chmod 0600 /sys/class/rfkill/rfkill0/state
-	chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
-	chmod 0600 /dev/ttyO1
-	chown bluetooth bluetooth /dev/ttyO1
+#	chmod 0600 /sys/class/rfkill/rfkill0/state
+#	chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+#	chmod 0600 /dev/ttyO1
+#	chown bluetooth bluetooth /dev/ttyO1
 
 	setprop vold.post_fs_data_done 1
 
@@ -80,41 +86,42 @@ on boot
 	chmod 0666 /dev/ttyO3
 
 # GPS init
-	chown gps system /dev/ttyO0
-	chmod 0666 /dev/ttyO0
+#	chown gps system /dev/ttyO0
+#	chmod 0666 /dev/ttyO0
 
 	# GPS ON-OFF
-	write /sys/class/gpio/export 172
-	write /sys/class/gpio/gpio172/direction out
-	write /sys/class/gpio/gpio172/value 0
-	chown gps system /sys/class/gpio/gpio172/value
-	chmod 0666 /sys/class/gpio/gpio172/value
+#	write /sys/class/gpio/export 172
+#	write /sys/class/gpio/gpio172/direction out
+#	write /sys/class/gpio/gpio172/value 0
+#	chown gps system /sys/class/gpio/gpio172/value
+#	chmod 0666 /sys/class/gpio/gpio172/value
 
 	# GPS SYSTEM-ON
-	write /sys/class/gpio/export 177
-	write /sys/class/gpio/gpio177/direction in
-	chown gps system /sys/class/gpio/gpio177/value
-	chmod 0666 /sys/class/gpio/gpio177/value
+#	write /sys/class/gpio/export 177
+#	write /sys/class/gpio/gpio177/direction in
+#	chown gps system /sys/class/gpio/gpio177/value
+#	chmod 0666 /sys/class/gpio/gpio177/value
 
 	# GPS NRESET
-	write /sys/class/gpio/export 174
-	write /sys/class/gpio/gpio174/direction out
-	write /sys/class/gpio/gpio174/value 1
-	chown gps system /sys/class/gpio/gpio174/value
-	chmod 0666 /sys/class/gpio/gpio174/value
+#	write /sys/class/gpio/export 174
+#	write /sys/class/gpio/gpio174/direction out
+#	write /sys/class/gpio/gpio174/value 1
+#	chown gps system /sys/class/gpio/gpio174/value
+#	chmod 0666 /sys/class/gpio/gpio174/value
 
-	mkdir /data/gps
-	chown gps system /data/gps
-	chmod 0770 /data/gps
+#	mkdir /data/gps
+#	chown gps system /data/gps
+#	chmod 0770 /data/gps
 
 # start MSHIELD SMC/RPROC_DRM driver
 	insmod /system/lib/modules/tf_driver.ko
 	insmod /system/lib/modules/rproc_drm.ko
-start smc_pa
+	start smc_pa
 
 on fs
 	symlink /dev/block/platform /dev/block/platform/omap
 	mount_all /fstab.pcm049
+	setprop ro.crypto.fuse_sdcard true
 
 	# Backlight
 	chown system system /sys/class/backlight/pwm-backlight/brightness
@@ -126,9 +133,9 @@ on fs
         setprop video.h264enc.profile 1
 
 # change permissions for Sensors
-	chown system system /sys/bus/i2c/drivers/adxl34x/4-0053
-	chown system system /sys/bus/i2c/drivers/adxl34x/4-0053/disable
-	chown system system /sys/bus/i2c/drivers/adxl34x/4-0053/rate
+#	chown system system /sys/bus/i2c/drivers/adxl34x/4-0053
+#	chown system system /sys/bus/i2c/drivers/adxl34x/4-0053/disable
+#	chown system system /sys/bus/i2c/drivers/adxl34x/4-0053/rate
 
 # Change permissions on the governor (this is for debug only)
 	chmod 444 /proc/cmdline

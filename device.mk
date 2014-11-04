@@ -31,11 +31,9 @@ PRODUCT_COPY_FILES += \
 	device/phytec/pcm049/mixer_paths.xml:system/etc/mixer_paths.xml \
 	device/phytec/pcm049/media_profiles.xml:system/etc/media_profiles.xml \
 	device/phytec/pcm049/media_codecs.xml:system/etc/media_codecs.xml \
-	device/phytec/pcm049/ft5x06_ts.idc:system/usr/idc/ft5x06_ts.idc \
-        device/common/gps/gps.conf_US:system/etc/gps.conf \
+	device/phytec/pcm049/stmpe-ts.idc:system/usr/idc/stmpe-ts.idc \
 	device/phytec/pcm049/audio/audio_policy.conf:system/etc/audio_policy.conf \
 	device/phytec/pcm049/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl \
-	device/phytec/pcm049/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
 	device/phytec/pcm049/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
         device/phytec/pcm049/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
@@ -51,10 +49,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
 	lights.pcm049
-
-#Sensors - Accelerometer
-PRODUCT_PACKAGES += \
-	sensors.pcm049
 
 PRODUCT_PACKAGES += \
 	boardidentity \
@@ -111,9 +105,6 @@ PRODUCT_PACKAGES += \
 	hwcomposer.omap4
 
 PRODUCT_TAGS += dalvik.gc.type-precise
-
-PRODUCT_PACKAGES += \
-	com.android.future.usb.accessory
 
 PRODUCT_PACKAGES += \
 	audio.primary.pcm049
@@ -177,7 +168,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.carrier=wifi-only
 
-$(call inherit-product-if-exists, vendor/sciaps/device.mk)
 #$(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product-if-exists, hardware/ti/wpan/ti-wpan-products.mk)

@@ -19,7 +19,7 @@ include device/phytec/pcm049/Config.mk
 
 # These two variables are set first, so they can be overridden
 # by BoardConfigVendor.mk
-BOARD_USES_GENERIC_AUDIO := true
+BOARD_USES_GENERIC_AUDIO := false
 USE_CAMERA_STUB := true
 
 OMAP_ENHANCEMENT := true
@@ -40,9 +40,9 @@ TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
-BOARD_HAVE_BLUETOOTH := true
-BOARD_HAVE_BLUETOOTH_TI := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/phytec/pcm049/bluetooth
+#BOARD_HAVE_BLUETOOTH := true
+#BOARD_HAVE_BLUETOOTH_TI := true
+#BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/phytec/pcm049/bluetooth
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RECOVERY := true
@@ -77,7 +77,7 @@ WIFI_DRIVER_MODULE_NAME          := "wlcore_sdio"
 WIFI_FIRMWARE_LOADER             := ""
 COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 
-BOARD_GPS_LIBRARIES := gps.pcm049
+#BOARD_GPS_LIBRARIES := gps.pcm049
 
 #Set 32 byte cache line to true
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
