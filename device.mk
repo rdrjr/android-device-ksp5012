@@ -35,7 +35,6 @@ PRODUCT_COPY_FILES += \
         device/common/gps/gps.conf_US:system/etc/gps.conf \
 	device/phytec/pcm049/audio/audio_policy.conf:system/etc/audio_policy.conf \
 	device/phytec/pcm049/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl \
-	device/phytec/pcm049/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
 	device/phytec/pcm049/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
         device/phytec/pcm049/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
