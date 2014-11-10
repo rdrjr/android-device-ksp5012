@@ -22,10 +22,6 @@ on init
 # does not care.
     setprop ro.product.processor omap4460
 
-# Allow everybody to read the xt_qtaguid resource tracking misc dev.
-# This is needed by any process that uses socket tagging.
-	chmod 0644 /dev/xt_qtaguid
-
 on post-fs-data
 	mkdir /data/media 0775 media_rw media_rw
 	chown media_rw media_rw /data/media
@@ -33,10 +29,6 @@ on post-fs-data
 	mkdir /data/misc/wifi/sockets 0770 wifi wifi
 	mkdir /data/misc/dhcp 0770 dhcp dhcp
 	chown dhcp dhcp /data/misc/dhcp
-	mkdir /data/smc 0770 drmrpc drmrpc
-	chown drmrpc drmrpc /data/smc/counter.bin
-	chown drmrpc drmrpc /data/smc/storage.bin
-	chown drmrpc drmrpc /data/smc/system.bin
 	mkdir /data/misc/eth 0770 system system
 	chown system system /data/misc/eth
 	mkdir /data/misc/camera 0770 media media
@@ -107,11 +99,6 @@ on boot
 	chown gps system /data/gps
 	chmod 0770 /data/gps
 
-# start MSHIELD SMC/RPROC_DRM driver
-	insmod /system/lib/modules/tf_driver.ko
-	insmod /system/lib/modules/rproc_drm.ko
-start smc_pa
-
 on fs
 	symlink /dev/block/platform /dev/block/platform/omap
 	mount_all /fstab.pcm049
@@ -134,10 +121,7 @@ on fs
 	chmod 444 /proc/cmdline
 
 # If you do not want the device to suspend to RAM, enable this write
-#	write /sys/power/wake_lock init.pcm049.rc_no_suspend
-
-# add symlink for HDCP key
-	symlink /factory/hdcp.keys /system/vendor/firmware/hdcp.keys
+	write /sys/power/wake_lock init.pcm049.rc_no_suspend
 
 service pvrsrvinit /system/vendor/bin/pvrsrvinit
 	class core
@@ -150,28 +134,6 @@ service uim /system/bin/uim-sysfs
 	class core
 	user bluetooth
 	group bluetooth net_bt_admin
-
-# MSHIELD SMC Daemon - component required to store persistent data coming
-#   from the SMC PA to the device persistent storage
-###################################################
-service tf_daemon /system/bin/tf_daemon \
-	-d -c /vendor/etc/smc_normal_world_android_cfg.ini
-	class main
-	user root
-	group root
-	oneshot
-	disabled
-
-###################################################
-# MSHIELD SMC PA Control - installs the SMC PA into the Secure Environment
-###################################################
-service smc_pa /system/bin/smc_pa_ctrl \
-	-c /vendor/etc/smc_normal_world_android_cfg.ini \
-	start /vendor/firmware/smc_pa.ift
-	class core
-	user root
-	group root
-	oneshot
 
 # create physical SD card at /storage/sdcard0
 service fuse_sdcard0 /system/bin/sdcard /mnt/media_rw/sdcard0 /storage/sdcard0 1023 1023
@@ -187,30 +149,3 @@ service iprenew_bnep0 /system/bin/dhcpcd -n
 	class main
 	disabled
 	oneshot
-
-service devproxy /system/bin/devproxy
-	class main
-	disabled
-	oneshot
-
-service agnss_connect /system/bin/agnss_connect -p
-	class main
-	disabled
-	oneshot
-
-service RXN_IntApp /system/bin/RXN_IntApp /system/etc/gnss/RXN/MSLConfig.txt
-	class main
-	disabled
-	oneshot
-
-service cplc_main /system/bin/cplc_main XML
-	class main
-	disabled
-	oneshot
-
-service supl20clientd /system/bin/supl20clientd
-	class main
-	oneshot
-
-on property:init.svc.smc_pa=stopped
-	start tf_daemon

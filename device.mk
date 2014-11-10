@@ -27,6 +27,7 @@ PRODUCT_COPY_FILES += \
 	device/phytec/pcm049/init.pcm049.usb.rc:root/init.pcm049.usb.rc \
 	device/phytec/pcm049/init.pcm049.wifi.rc:root/init.pcm049.wifi.rc \
         device/phytec/pcm049/fstab.pcm049:root/fstab.pcm049 \
+        device/phytec/pcm049/vold.fstab:system/etc/vold.fstab \
 	device/phytec/pcm049/ueventd.pcm049.rc:root/ueventd.pcm049.rc \
 	device/phytec/pcm049/mixer_paths.xml:system/etc/mixer_paths.xml \
 	device/phytec/pcm049/media_profiles.xml:system/etc/media_profiles.xml \
@@ -43,10 +44,6 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 	frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
 	frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml
-
-# to mount the external storage (sdcard)
-PRODUCT_COPY_FILES += \
-        device/phytec/pcm049/vold.fstab:system/etc/vold.fstab
 
 PRODUCT_PACKAGES += \
 	lights.pcm049
@@ -106,9 +103,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_CHARACTERISTICS := tablet
 
-PRODUCT_PACKAGES += \
-	hwcomposer.omap4
-
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_PACKAGES += \
@@ -146,7 +140,6 @@ PRODUCT_PACKAGES += \
 	e2fsck \
 	setup_fs
 
-#DUCATI_TGZ := device/ti/proprietary-open/omap4/ducati_blaze_tablet.tgz
 PRODUCT_PACKAGES += ducati-m3-core0.xem3
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -159,19 +152,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	dalvik.vm.jit.codecachesize=0 \
 	persist.sys.dalvik.vm.lib=libdvm.so \
 	dalvik.vm.dexopt-flags=m=y
-
-# SMC components for secure services like crypto, secure storage
-PRODUCT_PACKAGES += \
-	smc_pa.ift \
-	smc_normal_world_android_cfg.ini \
-	libsmapi.so \
-	libtf_crypto_sst.so \
-	libtfsw_jce_provider.so \
-	tfsw_jce_provider.jar \
-	tfctrl
-
-PRODUCT_PACKAGES += \
-	pcm049_hdcp_keys
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.carrier=wifi-only
