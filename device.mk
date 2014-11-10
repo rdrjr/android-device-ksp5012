@@ -33,6 +33,7 @@ PRODUCT_COPY_FILES += \
 	device/phytec/pcm049/media_profiles.xml:system/etc/media_profiles.xml \
 	device/phytec/pcm049/media_codecs.xml:system/etc/media_codecs.xml \
 	device/phytec/pcm049/ft5x06_ts.idc:system/usr/idc/ft5x06_ts.idc \
+	device/phytec/pcm049/ducati-m3-core0.xem3:system/vendor/firmware/ducati-m3-core0.xem3 \
         device/common/gps/gps.conf_US:system/etc/gps.conf \
 	device/phytec/pcm049/audio/audio_policy.conf:system/etc/audio_policy.conf \
 	device/phytec/pcm049/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl \
