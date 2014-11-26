@@ -46,6 +46,10 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
 	frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml
 
+# FPGA Version Check
+PRODUCT_PACKAGES += \
+	fpga.pcm049
+
 PRODUCT_PACKAGES += \
 	lights.pcm049
 
