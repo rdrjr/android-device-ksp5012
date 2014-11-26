@@ -53,6 +53,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	sensors.pcm049
 
+# GPS
+PRODUCT_PACKAGES += \
+	gps.pcm049
+
 PRODUCT_PACKAGES += \
 	boardidentity \
 	libboardidentity \
