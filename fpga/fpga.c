@@ -164,6 +164,8 @@ int main(int argc, char** argv)
 		}
 	}
 
+	system("/system/bin/busybox hwclock -s");
+
 	printf("%s: the FPGA version is %d and the "
 		"i2c modules were loaded on bus %d\n", argv[0], fpgaVer, busId);
 
