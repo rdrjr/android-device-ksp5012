@@ -89,16 +89,16 @@ void set_blocking (int fd, int should_block)
 
 void usage(const char* prog)
 {
-	printf("Usage: %s [i2c_bus_id] \n"
-		"  i2c_bus_id    This is ignored if FPGA version < 3\n"
-		"                Defaults to 1 for FPGA version >= 3\n"
-		"                The valid values are 1 or 4.\n", prog);
+	printf("Usage: %s [i2c_bus_id]\n"
+		"  i2c_bus_id  Use this to override the bus_id that is\n"
+		"              automatically set by reading the version\n"
+		"              stored in the FPGA\n", prog);
 }
 
 int main(int argc, char** argv)
 {
 	int busId, fd, numChar, fpgaVer;
-	char buf[7];
+	char buf[7], version_call[100];
 
 	if (argc > 2) {
 		usage(argv[0]);
@@ -110,7 +110,7 @@ int main(int argc, char** argv)
 			return -EINVAL;
 		}
 	} else {
-		busId = 1;
+		busId = 0;
 	}
 
 	fd = open(KSP5012_FPGA_PORT, O_RDWR | O_NOCTTY | O_SYNC);
@@ -146,22 +146,34 @@ int main(int argc, char** argv)
 		return -EINVAL;
 	} else {
 		fpgaVer = (strtol(&buf[4], NULL, 16) >> 7);
-		if (fpgaVer >= 3) {
-			if (busId == 4) {
-				system("/system/bin/insmod "
-					"/system/lib/modules/board-omap4ksp5012-version.ko "
-					"bus_id=4");
-			} else {
-				system("/system/bin/insmod "
-					"/system/lib/modules/board-omap4ksp5012-version.ko "
-					"bus_id=1");
+		if (!busId) {
+			switch (fpgaVer) {
+				case 0:
+				case 1:
+				case 2:
+					busId = 3;
+					break;
+				case 3:
+					busId = 1;
+					break;
+				case 4:
+					busId = 4;
+					break;
+				default:
+					fprintf(stderr,
+						"%s: FPGA version is invalid\n", argv[0]);
+					return -EINVAL;
 			}
 		} else {
-			busId = 3;
-			system("/system/bin/insmod "
-				"/system/lib/modules/board-omap4ksp5012-version.ko "
-				"bus_id=3");
+			printf("%s: overriding version-selected busId with "
+				" with busId=%d", argv[0], busId);
 		}
+
+		snprintf(version_call, sizeof(version_call),
+			"/system/bin/insmod "
+			"/system/lib/modules/board-omap4ksp5012-version.ko "
+			"bus_id=%d version=%d", busId, fpgaVer);
+		system(version_call);
 	}
 
 	system("/system/bin/busybox hwclock -s");

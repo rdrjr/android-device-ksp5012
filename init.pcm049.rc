@@ -130,10 +130,10 @@ service pvrsrvinit /system/vendor/bin/pvrsrvinit
 	oneshot
 
 # install modules based on KSP5012 FPGA version
-# For FPGA Version >= 3:
-#   1 - insmod omap4ksp5012-version.ko bus_id=1
-#   4 - insmod omap4ksp5012-version.ko bus_id=4
-service fpga_ver_chk /system/xbin/fpga.pcm049 1
+# Usage: /system/xbin/fpga.pcm049 [bus_id]
+#	[bus_id] can be used to ignore the default
+#	value that will be set by the FPGA version
+service fpga_ver_chk /system/xbin/fpga.pcm049
 	class core
 	user root
 	group root
