@@ -57,6 +57,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	gps.pcm049
 
+# CPLD
+PRODUCT_PACKAGES += \
+	cpld.pcm049
+
 PRODUCT_PACKAGES += \
 	boardidentity \
 	libboardidentity \
