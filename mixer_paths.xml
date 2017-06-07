@@ -9,7 +9,7 @@
   <ctl name="High Pass Filter Switch" value="0" />
   <ctl name="High Pass Cut Off" value="0" />
   <ctl name="ADC Inversion Switch" value="0" />
-  <ctl name="Capture Volume" value="0" />
+  <ctl name="Capture Volume" value="255" />
   <ctl name="Equaliser Function" value="0" />
   <ctl name="EQ1 Cut Off" value="0" />
   <ctl name="EQ1 Volume" value="24" />
@@ -42,7 +42,7 @@
   <ctl name="ALC Capture Noise Gate Switch" value="0" />
   <ctl name="ALC Capture Noise Gate Threshold" value="0" />
   <ctl name="Capture PGA ZC Switch" value="0" />
-  <ctl name="Capture PGA Volume" value="0" />
+  <ctl name="Capture PGA Volume" value="20" />
   <ctl name="Speaker Playback ZC Switch" value="0" />
   <ctl name="Speaker Playback Switch" value="0" />
   <ctl name="Speaker Playback Volume" value="63" />
@@ -51,9 +51,9 @@
   <ctl name="Mono Playback Switch" value="0" />
   <ctl name="DAC 128x Oversampling Switch" value="0" />
   <ctl name="ADC 128x Oversampling Switch" value="0" />
-  <ctl name="Aux Switch" value="0" />
-  <ctl name="MicN Switch" value="0" />
-  <ctl name="MicP Switch" value="0" />
+  <ctl name="Input PGA Aux Switch" value="0" />
+  <ctl name="Input PGA MicN Switch" value="0" />
+  <ctl name="Input PGA MicP Switch" value="0" />
   <ctl name="Aux Volume" value="0" />
   <ctl name="Mic Volume" value="0" />
   <ctl name="Speaker Mixer PCM Playback Switch" value="0" />
@@ -63,5 +63,9 @@
   <path name="speaker">
     <ctl name="Speaker Mixer PCM Playback Switch" value="1" />
     <ctl name="Speaker Playback Switch" value="1" />
+  </path>
+
+  <path name="mic">
+    <ctl name="Input PGA MicN Switch" value="1" />
   </path>
 </mixer>

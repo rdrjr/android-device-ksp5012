@@ -76,7 +76,7 @@ struct pcm_config pcm_config_out = {
 };
 
 struct pcm_config pcm_config_in = {
-    .channels = 2,
+    .channels = 1,
     .rate = IN_SAMPLING_RATE,
     .period_size = IN_PERIOD_SIZE,
     .period_count = IN_PERIOD_COUNT,
@@ -176,18 +176,22 @@ static void release_buffer(struct resampler_buffer_provider *buffer_provider,
 static void select_devices(struct audio_device *adev)
 {
     int speaker_on;
+    int mic_on;
 
     speaker_on = adev->out_device & AUDIO_DEVICE_OUT_SPEAKER;
+    mic_on = adev->in_device & AUDIO_DEVICE_IN_BUILTIN_MIC;
 
     reset_mixer_state(adev->ar);
 
-ALOGE("speaker_on %d\n", speaker_on);
+    ALOGE("speaker_on %d\n", speaker_on);
     if (speaker_on)
         audio_route_apply_path(adev->ar, "speaker");
+    if (mic_on)
+        audio_route_apply_path(adev->ar, "mic");
 
     update_mixer_state(adev->ar);
 
-    ALOGV("speaker=%c", speaker_on ? 'y' : 'n');
+    ALOGV("speaker=%c mic=%c", speaker_on ? 'y' : 'n', mic_on ? 'y' : 'n');
 }
 
 /* must be called with hw device and output stream mutexes locked */
@@ -1237,7 +1241,7 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->orientation = ORIENTATION_UNDEFINED;
     /* Let the call to out_set_parameters initialize this */
     adev->out_device = AUDIO_DEVICE_NONE;
-    adev->in_device = AUDIO_DEVICE_NONE;
+    adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
 
     *device = &adev->hw_device.common;
 
